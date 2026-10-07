@@ -18,6 +18,7 @@
     "displayName": "Now Playing",
     "description": "Now playing popup with artwork, progress, and playback controls",
     "category": "Media",
+    "defaultSection": "right",
     "allowMultiple": false
   },
   "omarchy": {
