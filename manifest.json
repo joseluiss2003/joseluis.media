@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "joseluis.media",
+  "name": "Now Playing",
+  "version": "1.0.0",
+  "author": "joseluis",
+  "description": "Now playing popup with artwork, progress, and playback controls",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Now Playing",
+    "description": "Now playing popup with artwork, progress, and playback controls",
+    "category": "Media",
+    "allowMultiple": false
+  },
+  "omarchy": {
+    "clonedFrom": "omarchy.media"
+  }
+}
