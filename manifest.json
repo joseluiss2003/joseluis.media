@@ -1,27 +1,23 @@
 {
   "schemaVersion": 1,
   "id": "joseluis.media",
-  "name": "Now Playing",
+  "name": "Media",
   "version": "1.0.0",
-  "author": "joseluis",
-  "description": "Now playing popup with artwork, progress, and playback controls",
+  "author": "José Luis",
+  "license": "MIT",
+  "homepage": "https://github.com/joseluiss2003/joseluis.media",
+  "description": "Now-playing MPRIS bar widget: a cava audio spectrum with the cover art in a circle, and a panel with cover, title/artist, media controls and a live seek bar.",
   "kinds": [
-    "service",
     "bar-widget"
   ],
-  "keepLoaded": true,
   "entryPoints": {
-    "service": "Service.qml",
-    "barWidget": "BarWidget.qml"
+    "barWidget": "Media.qml"
   },
   "barWidget": {
-    "displayName": "Now Playing",
-    "description": "Now playing popup with artwork, progress, and playback controls",
-    "category": "Media",
-    "defaultSection": "right",
-    "allowMultiple": false
-  },
-  "omarchy": {
-    "clonedFrom": "omarchy.media"
+    "displayName": "Media",
+    "description": "MPRIS now-playing with a cava spectrum in the bar and a panel with cover art, controls and a live seek bar.",
+    "category": "Widgets",
+    "allowMultiple": false,
+    "defaultSection": "center"
   }
 }

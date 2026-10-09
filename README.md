@@ -1,14 +1,34 @@
-# Now Playing
+# Media — MPRIS now-playing for the Omarchy bar
 
-An Apple Music–style now playing popup for Omarchy. Icon-only button in the bar that opens a compact card with album artwork, track info, progress, and playback controls. It reuses Omarchy's built-in MPRIS service (`omarchy.media`) through the plugin clone mechanism, so there is no extra daemon.
+A live `cava` audio spectrum in the bar with the current track's cover art in a
+small circle, and a panel with cover, title / artist / album, transport
+controls and a seek bar that follows playback position. Everything comes from
+[MPRIS](https://specifications.freedesktop.org/mpris-spec/latest/), so it
+follows whatever is playing — a local player, a browser tab, anything that
+exposes the interface.
 
-## Features
+![The panel: cover art, title and artist, previous / play-pause / next, and a live seek bar](preview.png)
 
-- Icon-only bar button, visible only while an MPRIS player is available.
-- Popup with artwork, title/artist/album, elapsed/remaining times, seek bar, and transport controls.
-- Source list to switch between active players.
-- Left-click opens/closes the popup, right-click play/pauses, middle-click skips, scroll wheel seeks through tracks.
-- Accurate progress bar driven by `playerctl` (no position drift).
+## What it does
+
+- **In the bar:** a live cava spectrum with the cover art in a circle on top,
+  falling back to a music glyph when the track has no art. The widget only
+  exists while a player has something to show, so the bar goes back to normal
+  when nothing is playing.
+- **The panel:** cover art, title / artist / album, previous / play-pause /
+  next, and a draggable seek bar with elapsed and total time.
+- **Picks the right player.** A playing player wins over a paused one, proxy
+  players (`playerctld`) are ranked last, and a paused player that still has
+  metadata is the next best. Switching tracks re-seats the position bar.
+- **Volume scroll** prefers the player's own MPRIS volume and falls back to the
+  PipeWire default sink when the player does not expose one.
+
+## Controls
+
+| Where | Action |
+|---|---|
+| Bar | left click = open/close the panel · right click = play/pause · middle click = next track · scroll = volume |
+| Panel | cover, title / artist / album, previous / play-pause / next, seek bar |
 
 ## Install
 
@@ -16,15 +36,38 @@ An Apple Music–style now playing popup for Omarchy. Icon-only button in the ba
 omarchy plugin add https://github.com/joseluiss2003/joseluis.media.git --enable --yes
 ```
 
-## Requirements
+Requires Omarchy 4 (Quattro) and `cava`. Any MPRIS player works — Spotify,
+mpv, browsers, `cliamp`, and so on. No helper scripts and no extra packages
+beyond `cava`.
 
-- Omarchy with the Quickshell shell.
-- A media player exposing the MPRIS interface (Spotify, mpv, browsers, …).
+To place it in a specific bar section:
 
-No extra packages or helper scripts are required.
+```sh
+omarchy plugin enable joseluis.media right
+```
 
 ## Remove
 
 ```sh
 omarchy plugin remove joseluis.media --yes
 ```
+
+## IPC
+
+```sh
+omarchy-shell joseluis.media open
+omarchy-shell joseluis.media close
+omarchy-shell joseluis.media toggle
+```
+
+## How it works
+
+`Media.qml` is the whole plugin. It reads the available players from
+`Quickshell.Services.Mpris`, and runs one `cava` process per bar instance —
+configured by the bundled `cava.conf` — parsing its ASCII output into the
+spectrum bars. The panel is a `KeyboardPanel` (layer-shell), so it opens from a
+click and from keyboard-summoned routing alike.
+
+## License
+
+MIT
