@@ -170,9 +170,13 @@ BarWidget {
     }
   }
 
+  // Keep the same side padding as the icon widgets so the bar's gaps stay
+  // uniform (the visual otherwise bleeds to both slot edges).
+  readonly property real sidePadding: Style.space(8)
+  readonly property real contentLong: Math.round(barSize * 2.4)
   visible: hasMedia
-  implicitWidth: hasMedia ? (root.bar.vertical ? barSize : Math.round(barSize * 2.4)) : 0
-  implicitHeight: hasMedia ? (root.bar.vertical ? Math.round(barSize * 2.4) : barSize) : 0
+  implicitWidth: hasMedia ? (root.vertical ? barSize : contentLong + sidePadding * 2) : 0
+  implicitHeight: hasMedia ? (root.vertical ? contentLong + sidePadding * 2 : barSize) : 0
 
   PwObjectTracker { objects: root.defaultSink ? [root.defaultSink] : [] }
 
@@ -231,8 +235,8 @@ BarWidget {
   Item {
     id: visual
     anchors.centerIn: parent
-    width: root.implicitWidth
-    height: root.implicitHeight
+    width: root.vertical ? barSize : root.contentLong
+    height: root.vertical ? root.contentLong : barSize
 
     Row {
       id: viz
